@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@radix-ui/react-checkbox": "^1.0.4",
     "@tanstack/react-table": "^8.11.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
