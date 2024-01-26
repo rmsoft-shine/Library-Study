@@ -4,10 +4,11 @@ import { ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreR
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Button } from "./ui/button";
-import { RxCross2, RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
+import { RxCross2, RxDoubleArrowLeft, RxDoubleArrowRight, RxMixerHorizontal } from "react-icons/rx";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Input } from "./ui/input";
 import FacetedFilter from "./FacetedFilter";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export default function ShadTasks() {
   const [data, setData] = useState(() => newTask(50));
@@ -77,6 +78,41 @@ export default function ShadTasks() {
             </Button>
           )}
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="ml-auto h-8 lg:flex"
+            >
+              <RxMixerHorizontal className="mr-2 h-4 w-4" />
+              View
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[150px]">
+            <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {table
+              .getAllColumns()
+              .filter(
+                (column) =>
+                  typeof column.accessorFn !== 'undefined' && column.getCanHide()
+              )
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })
+              }
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <Table className="rounded-md border mt-4">
         <TableHeader>
