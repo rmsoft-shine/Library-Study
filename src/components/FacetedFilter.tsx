@@ -36,11 +36,11 @@ export default function FacetedFilter<TData, TValue>({
               <Separator orientation="vertical" className="mx-2 h-4"/>
               <Badge
                 variant="secondary"
-                className="rounded-sm px-1 font-normal lg:hidden"
+                className="rounded-sm px-1 font-normal lg:hidden mr-1"
               >
                 {selectedValues.size}
               </Badge>
-              <div className="hidden space-x-1 lg:flex">
+              <div className="space-x-1 lg:flex">
                 {selectedValues.size > 2 ? (
                   <Badge
                     variant="secondary"
@@ -96,7 +96,7 @@ export default function FacetedFilter<TData, TValue>({
                         : "opacity-50 [&_svg]:invisible"
                     )}
                     >
-                      <CheckIcon className="h-4 w-4" />
+                      <CheckIcon className="h-4 w-4 text-white" />
                     </div>
                     {option.icon && (
                       <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />

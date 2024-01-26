@@ -50,7 +50,7 @@ export const columns = [ // : ColumnDef<Task>[]
     header: () => (
       <div>Id</div>
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
   }),
   helper.accessor('title', {
     cell: ({ row }) => {
@@ -66,8 +66,16 @@ export const columns = [ // : ColumnDef<Task>[]
       )
     }
   }),
-  helper.accessor('status', {}),
-  helper.accessor('priority', {}),
+  helper.accessor('status', {
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
+  }),
+  helper.accessor('priority', {
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
+  }),
 ]
 
 /* 데이터 */
@@ -89,27 +97,27 @@ export const newTask = (count = 1): Task[] => {
 /* 상수 */
 export const statuses = [
   {
-    value: 'backlog',
+    value: 'Backlog',
     label: "Backlog",
     icon: RxQuestionMarkCircled,
   },
   {
-    value: 'todo',
+    value: 'Todo',
     label: "Todo",
     icon: CircleIcon,
   },
   {
-    value: 'in progress',
+    value: 'InProgress',
     label: "In Progress",
     icon: RxStopwatch,
   },
   {
-    value: 'done',
+    value: 'Done',
     label: "Done",
     icon: CheckCircleIcon,
   },
   {
-    value: 'canceled',
+    value: 'Canceled',
     label: "Canceled",
     icon: RxCrossCircled,
   },
@@ -117,17 +125,17 @@ export const statuses = [
 
 export const priorities = [
   {
-    value: 'low',
+    value: 'Low',
     label: 'Low',
     icon: ArrowDownIcon,
   },
   {
-    value: 'medium',
+    value: 'Medium',
     label: 'Medium',
     icon: ArrowRightIcon,
   },
   {
-    value: 'high',
+    value: 'High',
     label: 'High',
     icon: ArrowUpIcon,
   },
