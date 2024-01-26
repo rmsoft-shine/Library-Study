@@ -5,6 +5,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
 import { RxCrossCircled, RxQuestionMarkCircled, RxStopwatch } from "react-icons/rx";
 import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
+import TasksHeader from "./TasksHeader";
 
 /* 스키마 */
 export const taskSchema = z.object({
@@ -53,6 +54,7 @@ export const columns = [ // : ColumnDef<Task>[]
     cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
   }),
   helper.accessor('title', {
+    header: ({ column }) => <TasksHeader column={column} title="Title"/>,
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
@@ -67,14 +69,44 @@ export const columns = [ // : ColumnDef<Task>[]
     }
   }),
   helper.accessor('status', {
+    header: ({ column }) => <TasksHeader column={column} title="Status"/>,
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
+    },
+    sortingFn: (a, b) => {
+      const status: {
+        [key: string]: number,
+      } = {
+        Canceled: 1,
+        Done: 2,
+        Backlog: 3,
+        InProgress: 4,
+        Todo: 5,
+      }
+
+      const A = a.getValue('status') as string;
+      const B = b.getValue('status') as string;
+      return status[A] > status[B] ? 1 : status[A] < status[B] ? -1 : 0;
     }
   }),
   helper.accessor('priority', {
+    header: ({ column }) => <TasksHeader column={column} title="Priority"/>,
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    }
+      return value.includes(row.getValue(id));
+    },
+    sortingFn: (a, b) => {
+      const priority: {
+        [key: string]: number,
+      } = {
+        Low: 1,
+        Medium: 2,
+        High: 3,
+      }
+
+      const A = a.getValue('priority') as string;
+      const B = b.getValue('priority') as string;
+      return priority[A] > priority[B] ? 1 : priority[A] < priority[B] ? -1 : 0;
+    },
   }),
 ]
 
